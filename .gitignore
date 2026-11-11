@@ -1,0 +1,33 @@
+# Collected data (databases and their SQLite side files)
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Your own searches and model lists, saved by the app
+searches.json
+
+# Generated reports
+report.html
+demo_report.html
+
+# Built app and PyInstaller leftovers
+*.exe
+build/
+dist/
+*.spec
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Editor / OS / tools
+.vscode/
+.idea/
+.claude/
+Thumbs.db
+desktop.ini
+.DS_Store

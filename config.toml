@@ -1,0 +1,59 @@
+# resell_advisor configuration
+
+db_path = "resell.db"
+
+[http]
+domain = "www.vinted.ro"
+# Seconds to wait between any two requests. Keep this slow.
+delay_seconds = 4.0
+timeout_seconds = 30
+user_agent = "resell-advisor/0.1 (personal market research)"
+# Optional extra request headers, e.g. Accept-Language.
+[http.headers]
+Accept-Language = "ro-RO,ro;q=0.9,en;q=0.8"
+
+# OLX.ro uses the same kind of settings. Note: at the time of writing OLX answers this
+# tool's requests with HTTP 403, so OLX collection does not work (see the log in the app).
+[olx]
+domain = "www.olx.ro"
+delay_seconds = 4.0
+timeout_seconds = 30
+user_agent = "resell-advisor/0.1 (personal market research)"
+
+[tracker]
+max_pages = 2            # pages (about 96 listings each) of newest listings per search per run
+max_rechecks = 150       # item pages re-checked per run (oldest-checked first)
+recheck_after_hours = 6  # do not re-check an item more often than this
+
+# NOTE: once you save searches in the app ("Searches..." button), they are stored in
+# searches.json and the [[search]] and [models] sections below are no longer used.
+#
+# One [[search]] block per market slice you want to track.
+# Any key other than "name" is passed to Vinted's catalog search as a filter.
+# Lists are sent comma-joined. Take the ids from the URL of a filtered search
+# on the website (catalog[]=..., brand_ids[]=..., size_ids[]=...).
+[[search]]
+name = "nike-sneakers"
+search_text = "nike"
+# catalog_ids = [1242]
+# brand_ids = [53]
+# size_ids = [784, 785, 786]
+
+[[search]]
+name = "adidas-sneakers"
+search_text = "adidas"
+
+[[search]]
+name = "new-balance-sneakers"
+search_text = "new balance"
+
+# Model detection: brand (lowercase) -> list of model names.
+# A model matches when all of its words appear in the listing title.
+# Longer names are tried first, so "air max 90" wins over "air max".
+[models]
+nike = ["air max 90", "air max 95", "air max 97", "air max plus", "air max 1", "air max",
+        "air force 1", "dunk low", "dunk high", "dunk", "jordan 1", "jordan 4", "jordan",
+        "blazer", "cortez", "vapormax", "pegasus", "tn"]
+adidas = ["samba", "gazelle", "campus", "superstar", "stan smith", "forum", "spezial",
+          "ultraboost", "nmd", "yeezy 350", "yeezy", "ozweego"]
+"new balance" = ["530", "550", "574", "990", "991", "2002r", "1906r", "9060", "327"]
